@@ -84,6 +84,7 @@
 
 .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
 }
 
 .btn-help {
@@ -100,6 +101,6 @@
 }
 
 .status-message {
-  height: 24px;
+  height: fit-content;
   margin-bottom: 10px;
 }
