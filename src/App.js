@@ -1,13 +1,13 @@
 // src/App.js
 import React, { useState, useEffect, useCallback } from "react";
-import GameBoard from "./components/GameBoard";
-import GameControls from "./components/GameControls";
-import GameInstructions from "./components/GameInstructions";
-import GameOver from "./components/GameOver";
-import HomeScreen from "./components/HomeScreen";
-import ScoreBoard from "./components/Scoreboard";
-import Scoretable from "./components/scoreTable";
-import NameInput from "./components/NameInput";
+import GameBoard from "./components/GameBoard.js";
+import GameControls from "./components/GameControls.js";
+import GameInstructions from "./components/GameInstructions.js";
+import GameOver from "./components/GameOver.js";
+import HomeScreen from "./components/HomeScreen.js";
+import ScoreBoard from "./components/Scoreboard.js";
+import Scoretable from "./components/scoreTable.js";
+import NameInput from "./components/NameInput.js";
 import "./App.css";
 
 // Símbolos para as cartas (emojis)
