@@ -5,7 +5,7 @@ import GameControls from "./components/GameControls";
 import GameInstructions from "./components/GameInstructions";
 import GameOver from "./components/GameOver";
 import HomeScreen from "./components/HomeScreen";
-import Scoreboard from "./components/Scoreboard";
+import ScoreBoard from "./components/Scoreboard";
 import Scoretable from "./components/scoreTable";
 import NameInput from "./components/NameInput";
 import "./App.css";
@@ -301,7 +301,7 @@ const App = () => {
           <GameBoard cards={cards} onCardClick={handleCardClick} />
         </div>
         <div className="col-md-4">
-          <Scoreboard moves={moves} matchedPairs={matchedPairs} totalPairs={totalPairs} timer={timer} />
+          <ScoreBoard moves={moves} matchedPairs={matchedPairs} totalPairs={totalPairs} timer={timer} />
           <GameControls
             onNewGame={initializeGame}
             onDifficultyChange={handleDifficultyChange}
