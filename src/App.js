@@ -5,7 +5,7 @@ import GameControls from "./components/GameControls.js";
 import GameInstructions from "./components/GameInstructions.js";
 import GameOver from "./components/GameOver.js";
 import HomeScreen from "./components/HomeScreen.js";
-import ScoreBoard from "./components/Scoreboard.js";
+import ScoreBoard from "./components/ScoreControl.js";
 import Scoretable from "./components/scoreTable.js";
 import NameInput from "./components/NameInput.js";
 import "./App.css";
