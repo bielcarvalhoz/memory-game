@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+# Jogo da Memória
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Um jogo da memória interativo desenvolvido com React e Node.js. O jogo inclui diferentes níveis de dificuldade, pontuações, e um placar para os melhores jogadores.
 
-## Available Scripts
+## Funcionalidades
 
-In the project directory, you can run:
+- Tela inicial com botões para jogar e ver créditos
+- Três níveis de dificuldade: Fácil (8 cartas), Médio (12 cartas) e Difícil (16 cartas)
+- Sistema de pontuação baseado em tempo e movimentos
+- Armazenamento de pontuações em um banco de dados SQLite
+- Placar com as 10 melhores pontuações
+- Interface responsiva com Bootstrap
 
-### `npm start`
+## Tecnologias Utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Frontend: React, Bootstrap
+- Backend: Node.js, Express
+- Banco de Dados: SQLite
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Pré-requisitos
 
-### `npm test`
+- Node.js (versão 14.x ou superior)
+- npm (versão 6.x ou superior)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Instalação
 
-### `npm run build`
+1. Clone o repositório:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone https://github.com/seu-usuario/memory-game.git
+cd memory-game
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Instale as dependências:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+```
 
-### `npm run eject`
+3. Inicie o servidor em modo de desenvolvimento:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm run dev
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Este comando inicia tanto o servidor backend (na porta 5000) quanto o frontend (na porta 3000).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Scripts Disponíveis
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `npm run dev`: Inicia o aplicativo em modo de desenvolvimento (frontend e backend)
+- `npm run client`: Inicia apenas o cliente React
+- `npm run server`: Inicia apenas o servidor Express com hot-reloading
+- `npm run build`: Compila o aplicativo para produção
+- `npm start`: Inicia o servidor em modo de produção
 
-## Learn More
+## Estrutura do Projeto
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+memory-game/
+├── public/                  # Arquivos públicos
+├── src/                     # Código fonte do frontend
+│   ├── components/          # Componentes React
+│   │   ├── Card.js          # Componente de carta
+│   │   ├── GameBoard.js     # Tabuleiro do jogo
+│   │   ├── GameControls.js  # Controles do jogo
+│   │   ├── GameInstructions.js # Instruções do jogo
+│   │   ├── GameOver.js      # Modal de fim de jogo
+│   │   ├── HomeScreen.js    # Tela inicial
+│   │   ├── NameInput.js     # Modal para inserir nome
+│   │   ├── ScoreBoard.js    # Componente de pontuação do jogo atual
+│   │   └── Scoreboard.js    # Modal com as melhores pontuações
+│   ├── App.js               # Componente principal
+│   ├── App.css              # Estilos
+│   └── index.js             # Ponto de entrada
+├── server.js                # Servidor Express
+├── scores.db                # Banco de dados SQLite (criado automaticamente)
+├── package.json             # Dependências e scripts
+└── README.md                # Documentação
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Como Jogar
 
-### Code Splitting
+1. Na tela inicial, clique em "Jogar" para iniciar o jogo
+2. Selecione o nível de dificuldade desejado
+3. Clique nas cartas para virá-las e encontrar os pares
+4. Complete o jogo encontrando todos os pares
+5. Se você fizer uma das 10 melhores pontuações, poderá registrar seu nome
+6. Veja sua posição no placar de líderes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Desenvolvimento
 
-### Analyzing the Bundle Size
+Para contribuir com o projeto:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Crie um fork do repositório
+2. Crie uma branch para sua feature (`git checkout -b feature/minha-feature`)
+3. Faça commit das suas mudanças (`git commit -m 'Adiciona minha feature'`)
+4. Faça push para a branch (`git push origin feature/minha-feature`)
+5. Abra um Pull Request
 
-### Making a Progressive Web App
+## Licença
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.

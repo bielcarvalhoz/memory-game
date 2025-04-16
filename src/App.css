@@ -12,14 +12,14 @@
 }
 
 @media (max-width: 768px) {
-  .card {
-    height: 78px;
+  .game-board {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 576px) {
-  .card {
-    height: 78px;
+  .game-board {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -101,6 +101,44 @@
 }
 
 .status-message {
-  height: fit-content;
+  height: 24px;
   margin-bottom: 10px;
+}
+
+/* Estilos para a tela inicial */
+.home-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.home-screen h1 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+/* Destaque para pontuações altas na tabela */
+.highscore-row {
+  background-color: rgba(255, 193, 7, 0.2) !important;
+}
+
+/* Animação para a tela inicial */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.home-screen .container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Estilo para o fundo do jogo */
+body {
+  background-color: #f8f9fa;
 }

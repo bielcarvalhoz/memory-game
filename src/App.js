@@ -1,9 +1,13 @@
+// src/App.js
 import React, { useState, useEffect, useCallback } from "react";
 import GameBoard from "./components/GameBoard";
 import GameControls from "./components/GameControls";
-import ScoreBoard from "./components/ScoreBoard";
 import GameInstructions from "./components/GameInstructions";
 import GameOver from "./components/GameOver";
+import HomeScreen from "./components/HomeScreen";
+import Scoreboard from "./components/Scoreboard";
+import Scoretable from "./components/scoreTable";
+import NameInput from "./components/NameInput";
 import "./App.css";
 
 // Símbolos para as cartas (emojis)
@@ -27,6 +31,7 @@ const symbols = [
 ];
 
 const App = () => {
+  // Estados para gerenciar o jogo
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
@@ -37,6 +42,13 @@ const App = () => {
   const [statusMessage, setStatusMessage] = useState("");
   const [difficulty, setDifficulty] = useState("medium");
   const [totalPairs, setTotalPairs] = useState(6);
+
+  // Estados para gerenciar a navegação e os modais
+  const [showHomeScreen, setShowHomeScreen] = useState(true);
+  const [showScoreboard, setShowScoreboard] = useState(false);
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [isHighScore, setIsHighScore] = useState(false);
+  const [currentScore, setCurrentScore] = useState(0);
 
   // Inicializa o jogo
   const initializeGame = useCallback(() => {
@@ -137,10 +149,42 @@ const App = () => {
   useEffect(() => {
     if (matchedPairs > 0 && matchedPairs === totalPairs) {
       setIsActive(false);
-      setGameOver(true);
-      setStatusMessage("Parabéns! Você completou o jogo!");
+      const finalScore = calculateScore();
+      setCurrentScore(finalScore);
+
+      // Verifica se a pontuação é alta o suficiente para estar no top 10
+      checkIfHighScore(finalScore);
     }
   }, [matchedPairs, totalPairs]);
+
+  // Verifica se a pontuação é alta o suficiente para estar no top 10
+  const checkIfHighScore = async (score) => {
+    try {
+      const response = await fetch("/api/scores/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          score,
+          difficulty,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.isHighScore) {
+        setIsHighScore(true);
+        setShowNameInput(true);
+      } else {
+        setGameOver(true);
+      }
+    } catch (error) {
+      console.error("Erro ao verificar pontuação:", error);
+      // Em caso de erro, mostra o modal de fim de jogo
+      setGameOver(true);
+    }
+  };
 
   // Timer
   useEffect(() => {
@@ -174,18 +218,78 @@ const App = () => {
     }
   };
 
-  // Efeito para inicializar o jogo quando a dificuldade muda
+  // Inicia um novo jogo
+  const handleStartGame = () => {
+    setShowHomeScreen(false);
+    initializeGame();
+  };
+
+  // Volta para a tela inicial
+  const handleBackToHome = () => {
+    setShowHomeScreen(true);
+    setIsActive(false);
+    setShowScoreboard(false);
+  };
+
+  // Salva a pontuação do jogador
+  const saveScore = async (name) => {
+    try {
+      const scoreData = {
+        name,
+        score: currentScore,
+        moves,
+        time: timer,
+        difficulty,
+        date: new Date().toISOString(),
+      };
+
+      await fetch("/api/scores", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(scoreData),
+      });
+
+      setShowNameInput(false);
+      setShowScoreboard(true);
+    } catch (error) {
+      console.error("Erro ao salvar pontuação:", error);
+      throw error;
+    }
+  };
+
+  // Fecha o modal de fim de jogo e exibe o scoreboard
+  const handleGameOverClose = () => {
+    setGameOver(false);
+    setShowScoreboard(true);
+  };
+
+  // Fecha o modal de inserir nome sem salvar
+  const handleNameInputCancel = () => {
+    setShowNameInput(false);
+    setGameOver(true);
+  };
+
+  // Efeito para inicializar o jogo quando a dificuldade muda e o jogo está ativo
   useEffect(() => {
-    if (!isActive && cards.length === 0) {
+    if (!showHomeScreen && !isActive && cards.length === 0) {
       initializeGame();
     }
-  }, [difficulty, isActive, cards.length, initializeGame]);
+  }, [difficulty, isActive, cards.length, initializeGame, showHomeScreen]);
+
+  if (showHomeScreen) {
+    return <HomeScreen onStartGame={handleStartGame} />;
+  }
 
   return (
     <div className="memory-game container py-4">
       <header className="text-center mb-4">
         <h1>Jogo da Memória</h1>
         <p className="lead">Encontre todos os pares de cartas</p>
+        <button className="btn btn-sm btn-outline-secondary" onClick={handleBackToHome}>
+          Voltar ao Menu
+        </button>
       </header>
 
       <div className="status-message alert alert-info" role="alert">
@@ -197,13 +301,22 @@ const App = () => {
           <GameBoard cards={cards} onCardClick={handleCardClick} />
         </div>
         <div className="col-md-4">
-          <ScoreBoard moves={moves} matchedPairs={matchedPairs} totalPairs={totalPairs} timer={timer} />
+          <Scoreboard moves={moves} matchedPairs={matchedPairs} totalPairs={totalPairs} timer={timer} />
           <GameControls
             onNewGame={initializeGame}
             onDifficultyChange={handleDifficultyChange}
             difficulty={difficulty}
             isGameActive={isActive}
           />
+          <button
+            className="btn btn-outline-info w-100 mt-3"
+            onClick={() => {
+              console.log("sd");
+              setShowScoreboard(true);
+            }}
+          >
+            Ver Melhores Pontuações
+          </button>
         </div>
       </div>
 
@@ -211,11 +324,27 @@ const App = () => {
 
       <GameOver
         show={gameOver}
-        score={calculateScore()}
+        score={currentScore}
         moves={moves}
         time={timer}
-        onClose={() => setGameOver(false)}
+        onClose={handleGameOverClose}
         onNewGame={initializeGame}
+      />
+
+      <NameInput
+        show={showNameInput}
+        score={currentScore}
+        moves={moves}
+        time={timer}
+        difficulty={difficulty}
+        onSave={saveScore}
+        onCancel={handleNameInputCancel}
+      />
+
+      <Scoretable
+        show={showScoreboard}
+        onClose={() => setShowScoreboard(false)}
+        onPlayAgain={initializeGame}
       />
     </div>
   );
