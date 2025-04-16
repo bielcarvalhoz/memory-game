@@ -12,14 +12,14 @@
 }
 
 @media (max-width: 768px) {
-  .game-board {
-    grid-template-columns: repeat(3, 1fr);
+  .card {
+    height: 78px;
   }
 }
 
 @media (max-width: 576px) {
-  .game-board {
-    grid-template-columns: repeat(2, 1fr);
+  .card {
+    height: 78px;
   }
 }
 
